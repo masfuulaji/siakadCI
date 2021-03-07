@@ -14,10 +14,14 @@ class Student extends BaseController
 	}
 	public function index()
 	{
-		//
+		$student = $this->studentModel->findAll();
+		$data = [
+			'student' => $student
+		];
+		return view('pages\student\index',$data);
 	}
 	public function show(){
-		$data = $this->studentModel->findAll();
-		dd($data);
+
+
 	}
 }
