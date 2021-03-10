@@ -35,6 +35,15 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 $routes->get('dataStudent', 'User/Student::show');
 $routes->get('student', 'User/Student::index');
+$routes->add('insert', 'User/Student::create');
+
+$routes->get('pegawai', 'Pegawai::index');
+$routes->get('profile/(:any)', 'Pegawai::profile/$1');
+$routes->add('updateProfile', 'Pegawai::updateProfile');
+
+$routes->get('dataUser', 'User::data');
+$routes->get('editUser/(:any)', 'User::edit/$1');
+$routes->add('updateUser', 'User::updateUser');
 
 /*
  * --------------------------------------------------------------------

@@ -11,7 +11,7 @@
     <button type="button" class="btn btn-primary mb-3" id="btn-tambah">
         Add User
     </button>
-    <div class="card mb-4">
+    <div class="card mb-4" id="table-pegawai" style>
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
             Data Student
@@ -23,26 +23,24 @@
                         <tr>
                             <th>no</th>
                             <th>nama</th>
-                            <th>gender</th>
-                            <th>no telp</th>
-                            <th>alamat</th>
+                            <th>jabatan</th>
+                            <th>jenis kelamin</th>
+                            <th>No Handpohone</th>
+                            <th>Alamat</th>
                             <th>aksi</th>
                         </tr>
                     </thead>
                     <?php $no = 1; ?>
-                    <?php foreach ($student as $students) : ?>
+                    <?php foreach ($user as $data) : ?>
                         <tbody>
                             <td><?= $no++ ?></td>
-                            <td><?= $students['nama'] ?></td>
-                            <td><?php if ($students['gender'] == 0) {
-                                    echo "laki-laki";
-                                } else {
-                                    echo "perempuan";
-                                } ?></td>
-                            <td><?= $students['telp'] ?></td>
-                            <td><?= $students['alamat'] ?></td>
+                            <td><?= $data['pegawai_nama'] ?></td>
+                            <td><?= $data['pegawai_jabatan'] ?></td>
+                            <td><?= $data['pegawai_jk'] ?></td>
+                            <td><?= $data['pegawai_hp'] ?></td>
+                            <td><?= $data['pegawai_alamat'] ?></td>
                             <td>
-                                <a class="btn btn-success btn-sm" name="edit">edit</a>
+                                <button class="btn btn-success btn-sm" name="edit" onclick="onEdit('<?= $data['user_id']; ?>')">Edit</button>
                                 <a class="btn btn-danger btn-sm" name="del">delete</a>
                             </td>
                         </tbody>
@@ -89,17 +87,51 @@
         </div>
     </div>
 </div>
+<?= $this->include('user/edit'); ?>
 <?= $this->endSection() ?>
+
+
 
 <?= $this->section('js') ?>
 <script>
-    $("#btn-tambah").on('click', function() {
-        $("#modal-title").html('Tambah siswa')
-        method = 'insert'
-        $("#method").val('POST')
-        $('#modalData form')[0].reset()
-        $("#btn-submit").html('Simpan')
-        $("#modalData").modal('show')
-    })
+   var table =  $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+
+    function onEdit(el) {
+        $.ajax({
+            url: 'editUser/' + el,
+            type: 'get',
+            dataType: 'json',
+            success: function(ret) {
+                var data = ret.data;
+                $('#edit-id-user').val(data.user_id);
+                $('#edit-id-pegawai').val(data.pegawai_id);
+                $('#edit-nama').val(data.pegawai_nama);
+                $('#edit-jabatan').val(data.pegawai_jabatan);
+                $('#edit-telp').val(data.pegawai_hp);
+                $('#edit-alamat').val(data.pegawai_alamat);
+                $('#edit-oldPass').val(data.user_password);
+                $("#table-pegawai").hide();
+                $("#form-edit").show();
+
+            }
+        })
+    }
+
+    function update() {
+        $.ajax({
+            url: '<?= base_url('updateUser'); ?>',
+            type: 'post',
+            data: new FormData($('#form-edit')[0]),
+            processData: false,
+            contentType: false,
+            success: function(ret) {
+                console.log(ret);
+                $("#table-pegawai").show();
+                $("#form-edit").hide();
+            }
+        })
+    }
 </script>
 <?= $this->endSection() ?>
