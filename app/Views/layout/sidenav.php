@@ -15,7 +15,7 @@
                 </a>
                 <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                     <nav class="sb-sidenav-menu-nested nav">
-                        <a class="nav-link" href="\student">Mahasiswa</a>
+                        <a class="nav-link" href="\student\">Mahasiswa</a>
                         <a class="nav-link" href="\dataUser">Pegawai</a>
                         <a class="nav-link" href="layout-sidenav-light.html">Dosen</a>
                     </nav>

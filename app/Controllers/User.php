@@ -42,12 +42,6 @@ class User extends BaseController
 			"pegawai_jk" => $this->request->getPost('edit-jk'),
 			"pegawai_alamat" => $this->request->getPost('edit-alamat'),
 		]);
-		$newPass = $this->request->getPost('edit-newPass');
-		if ($newPass != null) {
-			$this->userModel->update($idUser, [
-				"user_password"=>$newPass
-			]);
-		}
 		echo json_encode(array("status" => true, 'data' => "allo"));
 	}
 }

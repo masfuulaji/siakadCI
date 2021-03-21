@@ -8,7 +8,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Dashboard - SB Admin</title>
-    <link href="layout/css/styles.css" rel="stylesheet" />
+    <link href="<?= base_url('layout/css/styles.css'); ?>" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
 </head>
@@ -61,10 +61,10 @@
         </div>
     </div>
 
-    <script src="layout/jquery-3.6.0.min.js"></script>
-    <script src="js/validator.min.js"></script>
+    <script src="<?= base_url("layout/jquery-3.6.0.min.js")?>"></script>
+    <script src="<?= base_url("js/validator.min.js")?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="layout/js/scripts.js"></script>
+    <script src="<?= base_url("layout/js/scripts.js")?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>

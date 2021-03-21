@@ -127,7 +127,7 @@
             processData: false,
             contentType: false,
             success: function(ret) {
-                console.log(ret);
+                // console.log(ret);
                 $("#table-pegawai").show();
                 $("#form-edit").hide();
             }

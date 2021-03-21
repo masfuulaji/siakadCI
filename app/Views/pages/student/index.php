@@ -11,7 +11,7 @@
     <button type="button" class="btn btn-primary mb-3" id="btn-tambah">
         Add User
     </button>
-    <div class="card mb-4">
+    <div class="card mb-4" id="table_data">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
             Data Student
@@ -29,24 +29,6 @@
                             <th>aksi</th>
                         </tr>
                     </thead>
-                    <?php $no = 1; ?>
-                    <?php foreach ($student as $students) : ?>
-                        <tbody>
-                            <td><?= $no++ ?></td>
-                            <td><?= $students['nama'] ?></td>
-                            <td><?php if ($students['gender'] == 0) {
-                                    echo "laki-laki";
-                                } else {
-                                    echo "perempuan";
-                                } ?></td>
-                            <td><?= $students['telp'] ?></td>
-                            <td><?= $students['alamat'] ?></td>
-                            <td>
-                                <a class="btn btn-success btn-sm" name="edit">edit</a>
-                                <a class="btn btn-danger btn-sm" name="del">delete</a>
-                            </td>
-                        </tbody>
-                    <?php endforeach ?>
                 </table>
             </div>
         </div>
@@ -57,7 +39,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title" id="modal-title">Tambah Data</h4>
                 </div>
-                <form action="/insert" id="form" data-toggle="validator" method="post">
+                <form action="<?= base_url('student/insert') ?>" id="form" data-toggle="validator" method="post">
                     <input type="hidden" name="id" id="id">
                     <div class="modal-body">
                         <div class="form-group">
@@ -66,18 +48,18 @@
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender</label>
-                            <select name="gender" id="gender" class="form-control">
+                            <select name="gender" id="gnder" class="form-control">
                                 <option value="0">laki- laki</option>
                                 <option value="1">perempuan</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="telp">no telp</label>
-                            <input type="number" name="telp" class="form-control" id="telp" placeholder="telp">
+                            <input type="number" name="telp" class="form-control" id="tep" placeholder="telp">
                         </div>
                         <div class="form-group">
                             <label for="alamat">alamat</label>
-                            <input type="text" name="alamat" class="form-control" id="alamat" placeholder="alamat">
+                            <input type="text" name="alamat" class="form-control" id="alaat" placeholder="alamat">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -89,10 +71,48 @@
         </div>
     </div>
 </div>
+<?= $this->include('pages/student/edit'); ?>
 <?= $this->endSection() ?>
 
 <?= $this->section('js') ?>
 <script>
+    $(document).ready(function() {
+        let table = $('#dataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            ajax: {
+                url: `<?= base_url('student/data') ?>`,
+                type: "POST",
+                error: function(error) {
+                    console.log(error)
+                },
+            },
+            columns: [{
+                    data: "id",
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: "nama"
+                },
+                {
+                    data: "gender",
+                    render: (data) => {
+                        if (data == 1) {
+                            return '<span class="label label-success">Laki-laki</span>'
+                        }
+                        return '<span class="label label-danger">Perempuan</span>'
+                    }
+                },
+                {
+                    data: "telp"
+                },
+                {
+                    data: "alamat"
+                }
+            ]
+        });
+    })
     $("#btn-tambah").on('click', function() {
         $("#modal-title").html('Tambah siswa')
         method = 'insert'
@@ -101,5 +121,39 @@
         $("#btn-submit").html('Simpan')
         $("#modalData").modal('show')
     })
+
+    function onEdit(el) {
+        $.ajax({
+            url: `<?= base_url('student/edit') ?>/${1}`,
+            type: 'get',
+            dataType: 'json',
+            success: function(ret) {
+                var data = ret.data;
+                console.log(data);
+                $('#id-student').val(id);
+                $('#nama').val(data.nama);
+                $('#telp').val(data.telp);
+                $('#alamat').val(data.alamat);
+                $("#table_data").hide();
+                $("#form-edit").show();
+
+            }
+        })
+    }
+
+    function update() {
+        $.ajax({
+            url: '<?= base_url('updateUser'); ?>',
+            type: 'post',
+            data: new FormData($('#form-edit')[0]),
+            processData: false,
+            contentType: false,
+            success: function(ret) {
+                // console.log(ret);
+                $("#table-pegawai").show();
+                $("#form-edit").hide();
+            }
+        })
+    }
 </script>
 <?= $this->endSection() ?>

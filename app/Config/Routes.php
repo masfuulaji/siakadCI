@@ -33,14 +33,19 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-$routes->get('dataStudent', 'User/Student::show');
-$routes->get('student', 'User/Student::index');
-$routes->add('insert', 'User/Student::create');
+$routes->group('student',['namespace'=>'App\Controllers\User'],function($routes){
+	$routes->post('data', 'StudentController::dataTable');
+	$routes->get('/', 'StudentController::index');
+	$routes->add('insert', 'Student::create');
+	$routes->get('edit/(:any)', 'StudentController::edit/$1');
+	$routes->add('update', 'User::updateUser');
+});
 
 $routes->get('pegawai', 'Pegawai::index');
 $routes->get('profile/(:any)', 'Pegawai::profile/$1');
 $routes->add('updateProfile', 'Pegawai::updateProfile');
 
+// $route->group();
 $routes->get('dataUser', 'User::data');
 $routes->get('editUser/(:any)', 'User::edit/$1');
 $routes->add('updateUser', 'User::updateUser');
